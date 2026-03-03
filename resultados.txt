@@ -1,0 +1,20 @@
+Total de ataques: 1326158
+Total de IPs únicos: 635822
+IPs reincidentes: 128434 (20.20%)
+Ataques reincidentes: 818770 (61.74%)
+Ataques reincidentes multiprotocolo: 68 (0.01%)
+
+========== INTERVALO ENTRE ATAQUES REINCIDENTES ==========
+Média (horas): 40.15
+Mediana (horas): 6.67
+Maior intervalo (horas): 3577.43 (5 meses aprox.)
+
+========== ATAQUES REINCIDENTES POR PROTOCOLO ==========
+CLDAP_MEMORY_DICT: 624740 ataques (76.30%)
+DNS_MEMORY_DICT: 184690 ataques (22.56%)
+NTP_MEMORY_DICT: 5003 ataques (0.61%)
+SSDP_MEMORY_DICT: 2908 ataques (0.36%)
+MEMCACHED_MEMORY_DICT: 985 ataques (0.12%)
+CHARGEN_MEMORY_DICT: 418 ataques (0.05%)
+QOTD_MEMORY_DICT: 99 ataques (0.01%)
+COAP_MEMORY_DICT: 20 ataques (0.00%)
