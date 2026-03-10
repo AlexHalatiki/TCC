@@ -274,3 +274,114 @@ plt.grid(axis='y', alpha=0.3)
 plt.tight_layout()
 plt.savefig(f"{PASTA_GRAFICOS}/reincidentes_por_protocolo.png", dpi=300)
 plt.close()
+
+# Ataques por hora do dia
+
+df_ataques["hora"] = df_ataques["tempoInicio"].dt.hour
+ataques_por_hora = df_ataques.groupby("hora").size()
+plt.figure(figsize=(10,6))
+plt.bar(ataques_por_hora.index, ataques_por_hora.values)
+plt.xlabel("Hora do dia")
+plt.ylabel("Número de ataques")
+plt.title("Distribuição de ataques por hora do dia")
+plt.xticks(range(24))
+plt.grid(axis="y", alpha=0.3)
+plt.tight_layout()
+plt.savefig(f"{PASTA_GRAFICOS}/ataques_por_hora.png", dpi=300)
+plt.close()
+
+MIN_ATAQUES = 2
+ips_100 = ip_counts[ip_counts >= MIN_ATAQUES].index
+df_100 = df_reincidentes[df_reincidentes["ip"].isin(ips_100)].copy()
+
+# Calcular CV por vitima
+
+df_cv = (
+    df_100
+    .dropna(subset=["intervalo"])
+    .groupby("ip")
+    .agg(
+        ataques=("intervalo", "count"),
+        media=("intervalo", "mean"),
+        desvio=("intervalo", "std")
+    )
+)
+df_cv["cv"] = df_cv["desvio"] / df_cv["media"]
+df_cv = df_cv.reset_index()
+
+# Regularidade dos ataques por vitima
+
+plt.figure(figsize=(10,6))
+plt.scatter(
+    df_cv["ataques"],
+    df_cv["cv"],
+    alpha=0.7
+)
+plt.axhline(0.8, color='red', linestyle='--', label='Limiar CV = 0.8')
+plt.xlabel("Número de ataques da vítima")
+plt.ylabel("Coeficiente de variação (CV)")
+plt.title("Regularidade dos ataques por vítima")
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.tight_layout()
+plt.savefig(f"{PASTA_GRAFICOS}/cv_intervalos_vitimas.png", dpi=300)
+plt.close()
+
+# Distribuicao da regularidade dos ataques
+
+plt.figure(figsize=(10,6))
+plt.hist(df_cv["cv"], bins=40, edgecolor="black", alpha=0.7)
+plt.axvline(0.8, color='red', linestyle='--', label='Limiar CV = 0.8')
+plt.yscale('log')
+plt.xlabel("Coeficiente de Variação (CV)")
+plt.ylabel("Número de vítimas (log)")
+plt.title("Distribuição da regularidade dos ataques")
+plt.grid(True, alpha=0.3)
+plt.legend()
+plt.tight_layout()
+plt.savefig(f"{PASTA_GRAFICOS}/distribuicao_cv_vitimas.png", dpi=300)
+plt.close()
+
+# Ataques por hora para vítimas reincidentes
+
+df_cv_filtrado = df_cv[df_cv["cv"] <= 0.8]
+top5_vitimas_regulares = df_cv_filtrado.nlargest(5, "ataques")
+df_top5 = df_reincidentes[df_reincidentes["ip"].isin(top5_vitimas_regulares["ip"])]
+df_top5["hora"] = df_top5["tempoInicio"].dt.hour
+
+plt.figure(figsize=(10,6))
+for ip in top5_vitimas_regulares["ip"]:
+    horas = df_top5[df_top5["ip"] == ip]["hora"]
+    counts = horas.value_counts().sort_index()
+    plt.plot(counts.index, counts.values, marker="o", label=ip)
+plt.xlabel("Hora do dia")
+plt.ylabel("Número de ataques")
+plt.title("Distribuição de ataques por hora (CV <= 0.8)")
+plt.xticks(range(24))
+plt.legend(title="IP vítima")
+plt.grid(alpha=0.3)
+plt.tight_layout()
+plt.savefig(f"{PASTA_GRAFICOS}/reincidentes_por_hora.png", dpi=300)
+plt.close()
+
+
+plt.figure(figsize=(10,6))
+# loop por IP
+for ip in top5_vitimas_regulares["ip"]:
+    df_ip = df_top5[df_top5["ip"] == ip].copy()
+    df_ip = df_ip.dropna(subset=["intervalo"])
+    # converte para minutos
+    intervalos_minutos = (df_ip["intervalo"].dt.total_seconds() / 60)
+    intervalos_minutos = (10 * (intervalos_minutos / 10).round()).astype(int) # minutos multiplos de 10
+    # cria um 'histograma de linha' usando value_counts
+    counts = pd.Series(intervalos_minutos).value_counts().sort_index()
+    plt.plot(counts.index, counts.values, marker="o", label=ip)
+plt.xlabel("Intervalo entre ataques (minutos)")
+plt.ylabel("Número de ataques")
+plt.title("Distribuição do intervalo entre ataques (CV <= 0.8)")
+plt.grid(alpha=0.3)
+plt.legend(title="IP vítima")
+plt.tight_layout()
+plt.savefig(f"{PASTA_GRAFICOS}/intervalo_reincidentes_minuto.png", dpi=300)
+plt.close()
+
