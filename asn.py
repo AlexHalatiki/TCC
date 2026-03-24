@@ -9,7 +9,7 @@ if "HOME" not in os.environ:
     os.environ["HOME"] = os.environ["USERPROFILE"]
 import ip2asn
 
-def consolidar_ataques(ip, cidr, df_ip):
+def consolidar_multiprotocolo(ip, cidr, df_ip):
     ataques = []
     inicio_atual = None
     fim_atual = None
@@ -54,6 +54,48 @@ def consolidar_ataques(ip, cidr, df_ip):
             "tempoInicio": inicio_atual,
             "tempoFinal": fim_atual,
             **dict(counts)
+        })
+
+    return ataques
+
+def consolidar_carpet_bombing(cidr, df_cidr):
+    ataques = []
+    inicio_atual = None
+    fim_atual = None
+    ips_set = set()
+    tolerancia = timedelta(minutes=1)
+
+    for row in df_cidr.itertuples(index=False):
+        inicio = row.tempoInicio
+        fim = row.tempoFinal
+        ip = row.ip
+
+        if inicio_atual is None:
+            inicio_atual = inicio
+            fim_atual = fim
+            ips_set.add(ip)
+        else:
+            if inicio <= fim_atual + tolerancia:
+                fim_atual = max(fim_atual, fim)
+                ips_set.add(ip)
+            else:
+                ataques.append({
+                    "cidr": cidr,
+                    "tempoInicio": inicio_atual,
+                    "tempoFinal": fim_atual,
+                    "ips_count": len(ips_set)
+                })
+
+                inicio_atual = inicio
+                fim_atual = fim
+                ips_set = {ip}
+    
+    if inicio_atual is not None:
+        ataques.append({
+            "cidr": cidr,
+            "tempoInicio": inicio_atual,
+            "tempoFinal": fim_atual,
+            "ips_count": len(ips_set)
         })
 
     return ataques
@@ -115,19 +157,31 @@ for ip, grupo in df_raw.groupby("ip"):
     cidr_str = ";".join(str(c) for c in cidrs)
 
     grupo = grupo.sort_values("tempoInicio")
-    ataques_consolidados.extend(consolidar_ataques(ip, cidr_str, grupo))
+    ataques_consolidados.extend(consolidar_multiprotocolo(ip, cidr_str, grupo))
+
+df_multiprotocolo = pd.DataFrame(ataques_consolidados)
+
+# consolidar ataques (carpet bombing)
+
+ataques_consolidados = []
+for cidr, grupo in df_multiprotocolo.groupby("cidr"):
+    grupo = grupo.sort_values("tempoInicio")
+    ataques_consolidados.extend(consolidar_carpet_bombing(cidr, grupo))
+
+df_carpet_bombing = pd.DataFrame(ataques_consolidados)
 
 # salvar no banco
 
-df_raw = pd.DataFrame(ataques_consolidados)
-
 # preencher NaN dos counts com 0
-colunas_count = [col for col in df_raw.columns if "count" in col]
-df_raw[colunas_count] = df_raw[colunas_count].fillna(0).astype(int)
+colunas_count = [col for col in df_multiprotocolo.columns if "count" in col]
+df_multiprotocolo[colunas_count] = df_multiprotocolo[colunas_count].fillna(0).astype(int)
 # converte tempoInicio e tempoFinal para string (SQLite não tem datetime nativo)
-df_raw["tempoInicio"] = df_raw["tempoInicio"].astype(str)
-df_raw["tempoFinal"] = df_raw["tempoFinal"].astype(str)
+df_multiprotocolo["tempoInicio"] = df_multiprotocolo["tempoInicio"].astype(str)
+df_multiprotocolo["tempoFinal"] = df_multiprotocolo["tempoFinal"].astype(str)
+df_carpet_bombing["tempoInicio"] = df_carpet_bombing["tempoInicio"].astype(str)
+df_carpet_bombing["tempoFinal"] = df_carpet_bombing["tempoFinal"].astype(str)
 
 conn = sqlite3.connect(os.path.join(PASTA, "ataques.sqlite"))
-df_raw.to_sql("multiprotocol", conn, if_exists="replace", index=False)
+df_multiprotocolo.to_sql("multiprotocol", conn, if_exists="replace", index=False)
+df_carpet_bombing.to_sql("carpet_bombing", conn, if_exists="replace", index=False)
 conn.close()
