@@ -1,113 +1,17 @@
 import sqlite3
 import pandas as pd
-import os
 import matplotlib.pyplot as plt
 import numpy as np
+import pre_processamento
 
+PASTA_GRAFICOS = "graficos/multiprotocolo"
 
-def consolidar_ataques(df_ip):
-    ataques = []
-
-    inicio_atual = None
-    fim_atual = None
-    count_total = 0
-    tables = set()
-
-    for row in df_ip.itertuples(index=False):
-        inicio = row.tempoInicio
-        fim = row.tempoFinal
-        count = row.count
-        table = row.table
-
-        if inicio_atual is None:
-            inicio_atual = inicio
-            fim_atual = fim
-            count_total = count
-            tables = {table}
-        else:
-            if inicio <= fim_atual:
-                fim_atual = max(fim_atual, fim)
-                count_total += count
-                tables.add(table)
-            else:
-                ataques.append({
-                    "tempoInicio": inicio_atual,
-                    "tempoFinal": fim_atual,
-                    "count": count_total,
-                    "table": list(tables)
-                })
-
-                inicio_atual = inicio
-                fim_atual = fim
-                count_total = count
-                tables = {table}
-
-    if inicio_atual is not None:
-        ataques.append({
-            "tempoInicio": inicio_atual,
-            "tempoFinal": fim_atual,
-            "count": count_total,
-            "table": list(tables)
-        })
-
-    return ataques
-
-
-PASTA = "db-honeypots/database-br-2025-10-17"
-PASTA_GRAFICOS = "graficos"
-
-dados_completos = []
-
-for arquivo in os.listdir(PASTA):
-    if "6" not in arquivo and arquivo.endswith(".sqlite"):
-        caminho = os.path.join(PASTA, arquivo)
-
-        conn = sqlite3.connect(caminho)
-        cursor = conn.cursor()
-
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table'")
-        tabelas = cursor.fetchall()
-
-        tabela_memoria = None
-        for (nome_tabela,) in tabelas:
-            if nome_tabela.endswith("MEMORY_DICT"):
-                tabela_memoria = nome_tabela
-                break
-        
-        if not tabela_memoria:
-            print(f"{arquivo} → Tabela MEMORY_DICT não encontrada.")
-            conn.close()
-            exit()
-
-        query = f"SELECT * FROM {tabela_memoria}"
-        df = pd.read_sql_query(query, conn)
-
-        df["tempoInicio"] = pd.to_datetime(df["tempoInicio"], errors="coerce")
-        df["tempoFinal"] = pd.to_datetime(df["tempoFinal"], errors="coerce")
-        df["table"] = tabela_memoria
-
-        dados_completos.append(df)
-
-        conn.close()
-
-# juntar bases
-
-df_raw = pd.concat(dados_completos, ignore_index=True)
-
-# consolidar ataques (multiprotocolo)
-
-df_raw = df_raw.sort_values(["ip", "tempoInicio"])
-ataques_consolidados = []
-
-for ip, grupo in df_raw.groupby("ip"):
-    sessoes = consolidar_ataques(grupo)
-
-    for sessao in sessoes:
-        sessao["ip"] = ip
-
-    ataques_consolidados.extend(sessoes)
-
-df_ataques = pd.DataFrame(ataques_consolidados)
+conn = sqlite3.connect(pre_processamento.PATH_ATAQUES_PROCESSADOS)
+query = f"SELECT * FROM multiprotocol"
+df_ataques = pd.read_sql_query(query, conn)
+df_ataques["tempoInicio"] = pd.to_datetime(df_ataques["tempoInicio"], errors="coerce")
+df_ataques["tempoFinal"] = pd.to_datetime(df_ataques["tempoFinal"], errors="coerce")
+conn.close()
 
 # metricas gerais
 
@@ -134,9 +38,16 @@ porcentagem_ataques_reincidentes = (
     total_reincidentes / total_ataques
 ) * 100
 
-df_reincidentes_protocolos = df_reincidentes.explode("table")
+cols = [
+    "countNTP", "countDNS", "countCLDAP", "countQOTD",
+    "countCHARGEN", "countSSDP", "countMEMCACHED", "countCOAP"
+]
+def protocolos_ativos(row):
+    return [col for col in cols if row[col] > 0]
+df_reincidentes["protocolos"] = df_reincidentes.apply(protocolos_ativos, axis=1)
+df_exploded = df_reincidentes.explode("protocolos")
 ataques_por_protocolo = (
-    df_reincidentes_protocolos["table"]
+    df_exploded["protocolos"]
     .value_counts()
     .sort_values(ascending=False)
 )
@@ -147,15 +58,21 @@ porcentagem_por_protocolo = (
 
 # multiprotocolo
 
-df_reincidentes = df_reincidentes.sort_values(["ip", "tempoInicio"])
-df_reincidentes["multiprotocolo"] = (
-    df_reincidentes["table"].apply(lambda x: len(x) > 1)
-)
-
-total_multiprotocolo = df_reincidentes["multiprotocolo"].sum()
+total_multiprotocolo = ((df_ataques[cols] > 0).sum(axis=1) > 1).sum()
 
 porcentagem_multiprotocolo = (
-    total_multiprotocolo / total_reincidentes
+    total_multiprotocolo / total_ataques
+) * 100
+
+df_reincidentes = df_reincidentes.sort_values(["ip", "tempoInicio"])
+df_reincidentes["multiprotocolo"] = (
+    (df_reincidentes[cols] > 0).sum(axis=1) > 1
+)
+
+total_reincidentes_multiprotocolo = df_reincidentes["multiprotocolo"].sum()
+
+porcentagem_reincidentes_multiprotocolo = (
+    total_reincidentes_multiprotocolo / total_reincidentes
 ) * 100 if total_reincidentes > 0 else 0
 
 # intervalo entre ataques
@@ -168,10 +85,11 @@ df_reincidentes["intervalo"] = (
 intervalos_validos = df_reincidentes["intervalo"].dropna()
 
 print(f"Total de ataques: {total_ataques}")
+print(f"Ataques multiprotocolo: {total_multiprotocolo} ({porcentagem_multiprotocolo:.2f}%)")
 print(f"Total de IPs únicos: {total_ips_unicos}")
 print(f"IPs reincidentes: {ips_reincidentes_qtd} ({porcentagem_ips_reincidentes:.2f}%)")
 print(f"Ataques reincidentes: {total_reincidentes} ({porcentagem_ataques_reincidentes:.2f}%)")
-print(f"Ataques reincidentes multiprotocolo: {total_multiprotocolo} ({porcentagem_multiprotocolo:.2f}%)")
+print(f"Ataques reincidentes multiprotocolo: {total_reincidentes_multiprotocolo} ({porcentagem_reincidentes_multiprotocolo:.2f}%)")
 
 if not intervalos_validos.empty:
     intervalos_horas = intervalos_validos.dt.total_seconds() / 3600
@@ -194,7 +112,7 @@ plt.figure(figsize=(10, 6))
 bins_ip = np.logspace(np.log10(ip_counts.min()), np.log10(ip_counts.max()), 50)
 plt.hist(ip_counts, bins=bins_ip, edgecolor='black', alpha=0.7)
 plt.yscale('log')
-plt.xlabel('Quantidade de ataques por IP', fontsize=12)
+plt.xlabel('Quantidade de ataques', fontsize=12)
 plt.ylabel('Número de IPs (log)', fontsize=12)
 plt.title('Distribuição de ataques por IP', fontsize=14)
 media = ip_counts.mean()

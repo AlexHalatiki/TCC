@@ -1,20 +1,50 @@
-Total de ataques: 1326158
+!!!AGRUPAMENTO MULTIPROTOCOLO!!!
+
+Total de ataques: 1320573
+Ataques multiprotocolo: 738 (0.06%)
 Total de IPs únicos: 635822
-IPs reincidentes: 128434 (20.20%)
-Ataques reincidentes: 818770 (61.74%)
-Ataques reincidentes multiprotocolo: 68 (0.01%)
+IPs reincidentes: 128400 (20.19%)
+Ataques reincidentes: 813151 (61.58%)
+Ataques reincidentes multiprotocolo: 682 (0.08%)
 
 ========== INTERVALO ENTRE ATAQUES REINCIDENTES ==========
-Média (horas): 40.15
-Mediana (horas): 6.67
+Média (horas): 40.48
+Mediana (horas): 7.12
 Maior intervalo (horas): 3577.43 (5 meses aprox.)
 
-========== ATAQUES REINCIDENTES POR PROTOCOLO ==========
-CLDAP_MEMORY_DICT: 624740 ataques (76.30%)
-DNS_MEMORY_DICT: 184690 ataques (22.56%)
-NTP_MEMORY_DICT: 5003 ataques (0.61%)
-SSDP_MEMORY_DICT: 2908 ataques (0.36%)
-MEMCACHED_MEMORY_DICT: 985 ataques (0.12%)
-CHARGEN_MEMORY_DICT: 418 ataques (0.05%)
-QOTD_MEMORY_DICT: 99 ataques (0.01%)
-COAP_MEMORY_DICT: 20 ataques (0.00%)
+========== ATAQUES REINCIDENTES POR PROTOCOLO ==========  
+countCLDAP: 619814 ataques (76.22%)
+countDNS: 184664 ataques (22.71%)
+countNTP: 4995 ataques (0.61%)
+countSSDP: 2888 ataques (0.36%)
+countMEMCACHED: 969 ataques (0.12%)
+countCHARGEN: 416 ataques (0.05%)
+countQOTD: 97 ataques (0.01%)
+countCOAP: 20 ataques (0.00%)
+
+
+!!!AGRUPAMENTO CARPET BOMBING!!!
+
+Total de ataques: 105113
+Ataques carpet_bombing: 54811 (52.14%)
+Total de CIDRs únicos: 11264
+CIDRs reincidentes: 5810 (51.58%)
+Ataques reincidentes: 99659 (94.81%)
+Ataques reincidentes carpet_bombing: 53668 (53.85%)        
+
+========== INTERVALO ENTRE ATAQUES REINCIDENTES ==========
+Média (horas): 58.26
+Mediana (horas): 0.43
+Maior intervalo (horas): 3640.02 (5 meses aprox.)
+
+========== TOP 10 CIDRS COM MAIS ATAQUES ========== 
+177.93.152.0/21     2343     BR     AS263153 - Work Banda Larga
+181.232.168.0/22    2269     BR     AS271352 - Starsat Telecom Comercio e Serviços LTDA
+201.216.64.0/22     2264     BR     AS270610 - WORK INTERNET
+191.6.176.0/20      1508     BR     AS262428 - LINK10 BR
+177.128.232.0/22    1483     BR     AS262380 - Rontel LTDA
+177.44.144.0/20     1481     BR     AS262428 - LINK10 BR
+131.0.240.0/22      1480     BR     AS262380 - Rontel LTDA
+170.82.152.0/22     1480     BR     AS262428 - LINK10 BR
+186.251.28.0/22     1473     BR     AS262380 - Rontel LTDA
+138.255.92.0/22     1452     BR     AS262380 - Rontel LTDA
