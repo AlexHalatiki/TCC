@@ -1,0 +1,76 @@
+!!!AGRUPAMENTO MULTIPROTOCOLO!!!
+
+Total de ataques: 6369498
+Ataques multiprotocolo: 32651 (0.51%)
+Total de IPs únicos: 1960183
+IPs reincidentes: 708179 (36.13%)
+Ataques reincidentes: 5117494 (80.34%)
+Ataques reincidentes multiprotocolo: 26494 (0.52%)
+
+========== INTERVALO ENTRE ATAQUES REINCIDENTES ==========
+Média (horas): 366.23
+Mediana (horas): 1.70
+Maior intervalo (horas): 26100.74 (35 meses aprox.)
+
+========== ATAQUES REINCIDENTES POR PROTOCOLO ==========
+countCLDAP: 2007394 ataques (39.23%)
+countDNS: 1760302 ataques (34.40%)
+countCHARGEN: 647968 ataques (12.66%)
+countSSDP: 588525 ataques (11.50%)
+countNTP: 133624 ataques (2.61%)
+countMEMCACHED: 5481 ataques (0.11%)
+countQOTD: 772 ataques (0.02%)
+countCOAP: 22 ataques (0.00%)
+
+
+!!!AGRUPAMENTO CARPET BOMBING!!!
+
+Total de ataques: 939231
+Ataques carpet_bombing: 143248 (15.25%)
+Total de CIDRs únicos: 49951
+CIDRs reincidentes: 30582 (61.22%)
+Ataques reincidentes: 919862 (97.94%)
+Ataques reincidentes carpet_bombing: 140719 (15.30%)
+
+========== INTERVALO ENTRE ATAQUES REINCIDENTES ==========
+Média (horas): 337.88
+Mediana (horas): 0.44
+Maior intervalo (horas): (35 meses aprox.)
+
+========== TOP 10 CIDRS COM MAIS ATAQUES ==========
+60.24.172.0/22
+;60.24.176.0/20
+;60.24.192.0/18
+;60.25.0.0/16
+;60.26.0.0/15
+;60.28.0.0/21
+;60.28.8.0/24      5331     CN     AS4837 - China Unicom Tianjin province network
+115.190.0.0/16
+;115.191.0.0/18
+;115.191.64.0/20   5101     CN     AS137718 - Beijing Volcano Engine Technology Co., Ltd.
+47.96.205.0/24
+;47.96.206.0/23
+;47.96.208.0/20
+;47.96.224.0/19
+;47.97.0.0/16
+;47.98.0.0/15
+;47.100.0.0/14
+;47.104.0.0/14
+;47.108.0.0/18
+;47.108.64.0/19
+;47.108.96.0/21
+;47.108.104.0/22
+;47.108.108.0/24   3975   ???
+172.232.96.0/19
+;172.232.128.0/17
+;172.233.0.0/16
+;172.234.0.0/16
+;172.235.0.0/18    3710   ???
+104.28.0.0/16
+;104.29.0.0/21
+;104.29.8.0/23     3625   ???
+186.237.48.0/21    3583     BR     AS263009 - FORTE TELECOM LTDA.
+168.0.172.0/22     3582     BR     AS265303 - BRASIL TECPAR | AMIGO | AVATO
+200.229.128.0/20   3576     BR     AS18547 - PICTURE INFORMATICA EIRELI
+160.20.64.0/22     3554     BR     AS266150 - Borille Serviços de Telecomunicações Ltda.
+189.201.196.0/22   3544     BR     AS263253 - Global Web Master Ltda - EPP

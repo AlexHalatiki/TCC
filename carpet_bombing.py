@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pre_processamento
 
-PASTA_GRAFICOS = "graficos/carpet_bombing"
+PASTA_GRAFICOS = "graficos/db-honeypot3-2026-04-08/carpet_bombing"
 
 conn = sqlite3.connect(pre_processamento.PATH_ATAQUES_PROCESSADOS)
 query = f"SELECT * FROM carpet_bombing"

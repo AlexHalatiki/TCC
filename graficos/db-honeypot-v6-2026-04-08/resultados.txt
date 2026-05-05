@@ -1,0 +1,51 @@
+!!!AGRUPAMENTO MULTIPROTOCOLO!!!
+
+Total de ataques: 2460579
+Ataques multiprotocolo: 229 (0.01%)
+Total de IPs únicos: 275340
+IPs reincidentes: 118325 (42.97%)
+Ataques reincidentes: 2303564 (93.62%)
+Ataques reincidentes multiprotocolo: 101 (0.00%)
+
+========== INTERVALO ENTRE ATAQUES REINCIDENTES ==========
+Média (horas): 26.07
+Mediana (horas): 1.52
+Maior intervalo (horas): 7522.63 (10 meses aprox.)
+
+========== ATAQUES REINCIDENTES POR PROTOCOLO ==========
+countCLDAP: 2231494 ataques (96.87%)
+countSSDP: 40322 ataques (1.75%)
+countDNS: 30833 ataques (1.34%)
+countMEMCACHED: 418 ataques (0.02%)
+countCHARGEN: 351 ataques (0.02%)
+countNTP: 257 ataques (0.01%)
+countCOAP: 7 ataques (0.00%)
+countQOTD: 3 ataques (0.00%)
+
+
+!!!AGRUPAMENTO CARPET BOMBING!!!
+
+Total de ataques: 190965
+Ataques carpet_bombing: 141163 (73.92%)
+Total de CIDRs únicos: 9476
+CIDRs reincidentes: 4746 (50.08%)
+Ataques reincidentes: 186235 (97.52%)
+Ataques reincidentes carpet_bombing: 140900 (75.66%)
+
+========== INTERVALO ENTRE ATAQUES REINCIDENTES ==========
+Média (horas): 48.84
+Mediana (horas): 0.43
+Maior intervalo (horas): 7541.09 (10 meses aprox.)
+
+========== TOP 10 CIDRS COM MAIS ATAQUES ==========
+cidr
+179.191.32.0/22     3474     BR     AS52574 - Wvirtual.net Serviços
+168.181.144.0/22    3465     BR     AS265348 - INTERVIXTELECOM LTDA
+177.54.96.0/20      3171     BR     AS52988 - PLENA TELECOM
+189.201.208.0/20    3150     BR     AS263080 - GTi TELECOMUNICACOES S/A
+45.169.84.0/22      2997     BR     AS268100 - 7 Lan Comercio e Servicos Ltda
+192.140.20.0/22     2987     BR     AS271376 - 7LINK TELECOM EIRELI
+179.191.42.0/24     2927     BR     AS270657 - FNET TELECOM
+177.93.152.0/21     2349     BR     AS263153 - Work Banda Larga
+181.232.168.0/22    2258     BR     Não alocado.
+201.216.64.0/22     2257     BR     AS270610 - WORK INTERNET

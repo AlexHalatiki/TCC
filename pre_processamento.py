@@ -122,7 +122,7 @@ def ler_ataques_honeypot():
                 conn.close()
                 exit()
 
-            query = f"SELECT * FROM {tabela_memoria}"
+            query = f"SELECT * FROM {tabela_memoria} where count >= 5 and tempoInicio >= '2023-04-01' and tempoFinal < '2026-04-01'"
             df = pd.read_sql_query(query, conn)
 
             # Adiciona '.000000' para datas que não têm microsegundos
@@ -140,7 +140,7 @@ def ler_ataques_honeypot():
 
 
 asn_db = ip2asn.IP2ASN("./ip2asn-v4-u32.tsv")
-PASTA = "db-honeypots/database-br-2025-10-17"
+PASTA = "db-honeypots/db-honeypot3-2026-04-08"
 PATH_ATAQUES_PROCESSADOS = os.path.join(PASTA, "ataques.sqlite")
 
 if __name__ == "__main__":

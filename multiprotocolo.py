@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pre_processamento
 
-PASTA_GRAFICOS = "graficos/multiprotocolo"
+PASTA_GRAFICOS = "graficos/db-honeypot-v6-2026-04-08/multiprotocolo"
 
 conn = sqlite3.connect(pre_processamento.PATH_ATAQUES_PROCESSADOS)
 query = f"SELECT * FROM multiprotocol"
