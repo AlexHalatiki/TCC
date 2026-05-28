@@ -1,50 +1,149 @@
 !!!AGRUPAMENTO MULTIPROTOCOLO!!!
 
-Total de ataques: 1320573
-Ataques multiprotocolo: 738 (0.06%)
-Total de IPs únicos: 635822
-IPs reincidentes: 128400 (20.19%)
-Ataques reincidentes: 813151 (61.58%)
-Ataques reincidentes multiprotocolo: 682 (0.08%)
+Total de ataques: 13191733
+Ataques multiprotocolo: 64835 (0.49%)
+Total de IPs únicos: 4168083
+IPs reincidentes: 1357449 (32.57%)
+Ataques reincidentes: 10381099 (78.69%)
+Ataques reincidentes multiprotocolo: 56896 (0.55%)
 
 ========== INTERVALO ENTRE ATAQUES REINCIDENTES ==========
-Média (horas): 40.48
-Mediana (horas): 7.12
-Maior intervalo (horas): 3577.43 (5 meses aprox.)
+Média (horas): 498.67
+Mediana (horas): 2.30
+Maior intervalo (horas): 26112.37 (35 meses)
 
-========== ATAQUES REINCIDENTES POR PROTOCOLO ==========  
-countCLDAP: 619814 ataques (76.22%)
-countDNS: 184664 ataques (22.71%)
-countNTP: 4995 ataques (0.61%)
-countSSDP: 2888 ataques (0.36%)
-countMEMCACHED: 969 ataques (0.12%)
-countCHARGEN: 416 ataques (0.05%)
-countQOTD: 97 ataques (0.01%)
-countCOAP: 20 ataques (0.00%)
+========== ATAQUES REINCIDENTES POR PROTOCOLO ==========
+countCLDAP: 4439213 ataques (42.76%)
+countDNS: 3506354 ataques (33.78%)
+countCHARGEN: 1368482 ataques (13.18%)
+countSSDP: 867429 ataques (8.36%)
+countNTP: 249434 ataques (2.40%)
+countMEMCACHED: 6454 ataques (0.06%)
+countQOTD: 995 ataques (0.01%)
+countCOAP: 36 ataques (0.00%)
+
+========== CONCENTRAÇÃO DOS ATAQUES POR IP ==========
+Top 1% dos IPs concentra 26.37% dos ataques
+Top 5% dos IPs concentra 48.47% dos ataques
+Top 10% dos IPs concentra 59.99% dos ataques
+
+========== REINCIDENTES VS NÃO REINCIDENTES - IP ==========
+                     ataques  duracao_mediana  duracao_media  volume_mediano  volume_medio  qtd_protocolos_media  percentual_multiprotocolo  qtd_instancias_media  percentual_multi_instancia
+vitima_reincidente                                                                                                                                                                           
+False                2810634         6.890950      43.244305            52.0   3221.774784              1.002940                   0.282463              1.500243                   35.610044
+True                10381099         0.800545      12.274533           270.0   7063.861102              1.005519                   0.548073              1.341444                   26.424331
+
+========== MULTI-INSTÂNCIA EM ATAQUES REINCIDENTES ==========
+Ataques contra IPs reincidentes multi-instância: 26.42%
+
+========== MULTI-INSTÂNCIA POR VÍTIMA REINCIDENTE ==========
+IPs reincidentes observados em múltiplas instâncias: 72.62%
 
 
 !!!AGRUPAMENTO CARPET BOMBING!!!
 
-Total de ataques: 105113
-Ataques carpet_bombing: 54811 (52.14%)
-Total de CIDRs únicos: 11264
-CIDRs reincidentes: 5810 (51.58%)
-Ataques reincidentes: 99659 (94.81%)
-Ataques reincidentes carpet_bombing: 53668 (53.85%)        
+Total de ataques: 1625613
+Ataques carpet_bombing: 188338 (11.59%)
+Total de CIDRs únicos: 65768
+CIDRs reincidentes: 44299 (67.36%)
+Ataques reincidentes: 1604144 (98.68%)
+Ataques reincidentes carpet_bombing: 185027 (11.53%)
 
 ========== INTERVALO ENTRE ATAQUES REINCIDENTES ==========
-Média (horas): 58.26
-Mediana (horas): 0.43
-Maior intervalo (horas): 3640.02 (5 meses aprox.)
+Média (horas): 288.95
+Mediana (horas): 0.30
+Maior intervalo (horas): 26132.87 (35 meses)
 
-========== TOP 10 CIDRS COM MAIS ATAQUES ========== 
-177.93.152.0/21     2343     BR     AS263153 - Work Banda Larga
-181.232.168.0/22    2269     BR     AS271352 - Starsat Telecom Comercio e Serviços LTDA
-201.216.64.0/22     2264     BR     AS270610 - WORK INTERNET
-191.6.176.0/20      1508     BR     AS262428 - LINK10 BR
-177.128.232.0/22    1483     BR     AS262380 - Rontel LTDA
-177.44.144.0/20     1481     BR     AS262428 - LINK10 BR
-131.0.240.0/22      1480     BR     AS262380 - Rontel LTDA
-170.82.152.0/22     1480     BR     AS262428 - LINK10 BR
-186.251.28.0/22     1473     BR     AS262380 - Rontel LTDA
-138.255.92.0/22     1452     BR     AS262380 - Rontel LTDA
+========== TOP 10 CIDRS COM MAIS ATAQUES ==========
+47.96.205.0/24;47.96.206.0/23;47.96.208.0/20;47.96.224.0/19;47.97.0.0/16;47.98.0.0/15;47.100.0.0/14;47.104.0.0/14;47.108.0.0/18;47.108.64.0/19;47.108.96.0/21;47.108.104.0/22;47.108.108.0/24    7372    
+115.190.0.0/16;115.191.0.0/18;115.191.64.0/20                                                                                                                                                    7319    Beijing Volcano Engine Technology Co., Ltd.    CN
+172.232.96.0/19;172.232.128.0/17;172.233.0.0/16;172.234.0.0/16;172.235.0.0/18                                                                                                                    7254 
+177.206.48.0/20;177.206.64.0/18;177.206.128.0/17;177.207.0.0/17;177.207.128.0/21                                                                                                                 7049    TELEFÔNICA BRASIL S.A                          BR
+45.227.184.0/22                                                                                                                                                                                  7025    serrasul telecom ltda                          BR
+179.98.0.0/15;179.100.0.0/17                                                                                                                                                                     7002    TELEFÔNICA BRASIL S.A                          BR
+104.28.0.0/16;104.29.0.0/21;104.29.8.0/23                                                                                                                                                        6964
+186.233.80.0/21                                                                                                                                                                                  6833
+189.40.202.0/23;189.40.204.0/22;189.40.208.0/21;189.40.216.0/23;189.40.218.0/24                                                                                                                  6793    TIM CELULAR S.A.                               BR
+189.201.196.0/22                                                                                                                                                                                 6738    Global Web Master Ltda - EPP                   BR
+
+========== CONCENTRAÇÃO DOS ATAQUES POR CIDR ==========
+Top 1% dos CIDRs concentra 59.66% dos ataques
+Top 5% dos CIDRs concentra 77.99% dos ataques
+Top 10% dos CIDRs concentra 84.92% dos ataques
+
+========== REINCIDENTES VS NÃO REINCIDENTES - CIDR ==========
+                    ataques  duracao_mediana  duracao_media  volume_mediano   volume_medio    qtd_instancias_media  percentual_multi_instancia  percentual_carpet_bombing
+vitima_reincidente                                                                                                                                                                                                        
+False                 21469         0.049992       9.762615           631.0  143979.874004                1.711072                   48.218361                  15.422237
+True                1604144         0.032957       1.403182           391.0   49431.202719                1.659396                   41.441853                  11.534314
+
+========== MULTI-INSTÂNCIA EM ATAQUES REINCIDENTES ==========
+Ataques contra CIDRs reincidentes multi-instância: 41.44%
+
+========== MULTI-INSTÂNCIA POR CIDR REINCIDENTE ==========
+CIDRs reincidentes observados em múltiplas instâncias: 92.25%
+
+
+Total de países atacados: 212
+
+========== TOP 20 PAÍSES POR QUANTIDADE DE ATAQUES ==========
+      ataques  porcentagem
+pais                      
+BR     494858    30.441317/
+US     320819    19.735263
+CN     266024    16.364534
+None    50386     3.099508
+GB      50050     3.078839
+PL      41832     2.573306
+FR      40651     2.500657
+DE      40352     2.482264
+HK      28590     1.758721
+NL      25394     1.562118
+SA      21188     1.303385
+IR      20330     1.250605
+RU      19389     1.192719
+CA      16734     1.029396
+TR      14477     0.890556
+SG      13716     0.843743
+AR      10454     0.643080
+AU       9204     0.566186
+CY       8568     0.527063
+VN       8026     0.493721
+
+========== CONCENTRAÇÃO DOS ATAQUES POR PAÍS ==========
+Top 1 países concentram 30.44% dos ataques
+Top 3 países concentram 66.54% dos ataques
+Top 5 países concentram 72.72% dos ataques
+Top 10 países concentram 83.60% dos ataques
+Top 20 países concentram 92.34% dos ataques
+
+========== TOP 20 PAÍSES POR VOLUME ==========
+           volume  porcentagem_volume
+pais                                 
+BR    42791849944           51.940763
+CN    14669644975           17.806020
+US     6578934708            7.985513
+None   5660000041            6.870110
+HK     4017304492            4.876206
+GB      963382432            1.169354
+UA      828690421            1.005865
+VN      650190055            0.789201
+DE      519135744            0.630127
+NL      482055323            0.585119
+SG      415985477            0.504923
+FR      414037491            0.502559
+BG      329695498            0.400185
+PL      285635554            0.346705
+TR      270162015            0.327923
+MY      241740913            0.293425
+ES      222800589            0.270435
+BD      208454906            0.253023
+AR      207474024            0.251832
+CA      189334724            0.229815
+
+========== CONCENTRAÇÃO DO VOLUME POR PAÍS ==========
+Top 1 países concentram 51.94% do volume
+Top 3 países concentram 77.73% do volume
+Top 5 países concentram 89.48% do volume
+Top 10 países concentram 93.66% do volume
+Top 20 países concentram 97.04% do volume
